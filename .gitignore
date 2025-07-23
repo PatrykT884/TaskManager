@@ -1,0 +1,30 @@
+## Build artifacts
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## VS Code
+.vscode/
+
+## Visual Studio working folder
+.vs/
+
+## SQLite / local DB
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+
+## Logs
+*.log
+
+## Others
+_ReSharper*/
+*.ncrunch*
+*.DS_Store
+Thumbs.db
