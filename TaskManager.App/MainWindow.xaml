@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="Task Manager" Height="400" Width="400">
+    <Grid Margin=" 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <TextBox x:Name="NewTaskTextBox" Width="250" Margin="0,0,10,0"/>
+            <Button Content="Add Task" Click="AddTaskButton_Click"/>
+        </StackPanel>
+        
+        <ListBox x:Name="TaskListBox" Grid.Row="1" Margin="0,0,0,10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsCompleted}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Button Content="Delete" Click="DeleteTask_Click"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListBox.ItemContainerStyle>stBox.ItemContainerStyle>
+        </ListBox>
     </Grid>
 </Window>
