@@ -13,25 +13,23 @@
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
-            <TextBox x:Name="NewTaskTextBox" Width="250" Margin="0,0,10,0"/>
-            <Button Content="Add Task" Click="AddTaskButton_Click"/>
+            <TextBox Text="{Binding NewTaskTitle, UpdateSourceTrigger=PropertyChanged}" 
+                Width="250" 
+                Margin="0,0,10,0"
+                IsEnabled="True"
+                Focusable="True"/><Button Content="Add Task" Command="{Binding AddTaskCommand}"/>
         </StackPanel>
-        
-        <ListBox x:Name="TaskListBox" Grid.Row="1" Margin="0,0,0,10">
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Tasks}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox IsChecked="{Binding IsCompleted}" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <Button Content="Delete" Click="DeleteTask_Click"/>
+                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Button Content="Delete" Command="{Binding DataContext.DeleteTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListBox.ItemContainerStyle>stBox.ItemContainerStyle>
-        </ListBox>
+        </ListBox> 
     </Grid>
 </Window>

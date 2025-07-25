@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Infrastructure.Data;
+using TaskManager.App.ViewModels;
 
 namespace TaskManager.App
 {
@@ -31,7 +32,7 @@ namespace TaskManager.App
         private void ConfigureServices(IServiceCollection services)
         {
             // ViewModels
-            //services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             // Views
             services.AddSingleton<MainWindow>();
