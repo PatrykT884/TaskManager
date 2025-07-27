@@ -8,12 +8,15 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using TaskManager.Domain.Models;
+using TaskManager.Infrastructure.Data;
 
 namespace TaskManager.App.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<TaskItem> Tasks { get; set; } = new ObservableCollection<TaskItem>();
+
+        private readonly TaskDbContext _dbContext;
 
         private string _newTaskTitle;
         public string NewTaskTitle
@@ -37,17 +40,30 @@ namespace TaskManager.App.ViewModels
        /// <summary>
        /// Methods
        /// </summary>
-        public MainViewModel()
+        public MainViewModel(TaskDbContext dbContext)
         {
+            _dbContext = dbContext;
+
+            Tasks = new ObservableCollection<TaskItem>(_dbContext.Tasks.ToList());
+
             _addTaskCommand = new RelayCommand(
                   _ => AddTask(),
                   _ => !string.IsNullOrWhiteSpace(NewTaskTitle));
+
             DeleteTaskCommand = new RelayCommand(task => DeleteTask(task as TaskItem));
         }
 
         private void AddTask()
         {
-            Tasks.Add(new TaskItem { Title = NewTaskTitle, IsCompleted = false });
+            TaskItem task = new TaskItem
+            {
+                Title = NewTaskTitle,
+                IsCompleted = false
+            };
+            _dbContext.Tasks.Add(task);
+            _dbContext.SaveChanges();
+
+            Tasks.Add(task);
             NewTaskTitle = string.Empty;
         }
 
@@ -55,6 +71,9 @@ namespace TaskManager.App.ViewModels
         {
             if (task != null)
             {
+                _dbContext.Tasks.Remove(task);
+                _dbContext.SaveChanges();
+
                 Tasks.Remove(task);
             }
         }

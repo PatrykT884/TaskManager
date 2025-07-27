@@ -14,7 +14,8 @@ namespace TaskManager.Infrastructure.Design
         public TaskDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TaskDbContext>();
-            optionsBuilder.UseSqlite("Data Source=tasks.db");
+            var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tasks.db");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
             return new TaskDbContext(optionsBuilder.Options);
         }
     }

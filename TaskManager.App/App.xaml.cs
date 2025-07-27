@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Data;
+using System.IO;
+using System.Runtime.InteropServices.JavaScript;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
-using TaskManager.Infrastructure.Data;
 using TaskManager.App.ViewModels;
+using TaskManager.Infrastructure.Data;
 
 namespace TaskManager.App
 {
@@ -14,6 +17,8 @@ namespace TaskManager.App
     public partial class App : Application
     {
         public new static App Current => (App)Application.Current;
+
+        private IHost _host;
         public IServiceProvider Services { get; private set; }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -28,7 +33,6 @@ namespace TaskManager.App
             base.OnStartup(e);
         }
 
-
         private void ConfigureServices(IServiceCollection services)
         {
             // ViewModels
@@ -42,7 +46,8 @@ namespace TaskManager.App
             // Database context
             services.AddDbContext<TaskDbContext>(options =>
             {
-                options.UseSqlite("Data Source=tasks.db");
+                var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tasks.db");
+                options.UseSqlite($"Data Source={dbPath}");
             });
         }
 
