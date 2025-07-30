@@ -7,7 +7,9 @@ using System.IO;
 using System.Runtime.InteropServices.JavaScript;
 using System.Windows;
 using TaskManager.App.ViewModels;
+using TaskManager.Core.Services;
 using TaskManager.Infrastructure.Data;
+using TaskManager.Infrastructure.Repositories;
 
 namespace TaskManager.App
 {
@@ -42,6 +44,8 @@ namespace TaskManager.App
             services.AddSingleton<MainWindow>();
 
             // Services & repositories – będą dodawane później
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskService, TaskService>();
 
             // Database context
             services.AddDbContext<TaskDbContext>(options =>
